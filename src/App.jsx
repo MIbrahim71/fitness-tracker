@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />, // The Layout wraps the Navbar and route content
     children: [
-      { path: "/", element: <Home /> },
+      { index: true, element: <Home /> }, // This will render for '/' path
       { path: "/MyWorkouts", element: <MyWorkouts /> },
       { path: "/MyAccount", element: <MyAccount /> },
     ],
