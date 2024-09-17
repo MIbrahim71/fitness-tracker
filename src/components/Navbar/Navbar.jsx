@@ -1,3 +1,5 @@
+import React from "react";
+
 import { homeIcon, dumbellIcon, userIcon } from "../../assets/assets";
 export default function Navbar() {
   return (
@@ -6,6 +8,7 @@ export default function Navbar() {
         <a className="cursor-pointer">
           <img className="w-[42px] h-42px]" src={homeIcon} alt="" />
         </a>
+
         <a className="cursor-pointer">
           <img className="w-[72px] h-[72px]" src={dumbellIcon} alt="" />
         </a>

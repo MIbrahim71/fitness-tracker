@@ -1,5 +1,5 @@
-import BodyweightTracker from "./BodyweightTracker";
-import WorkoutFrequency from "./WorkoutFrequency";
+import BodyweightTracker from "./BodyweightTracker/BodyweightTracker";
+import WorkoutFrequency from "./WorkoutFrequency/WorkoutFrequency";
 
 export default function Home() {
   return (
