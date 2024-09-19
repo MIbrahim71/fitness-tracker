@@ -10,38 +10,31 @@ export default function Navbar() {
           to="/"
           className={({ isActive }) => (isActive ? "bg-orange-300" : "")}
         >
-          <a className="cursor-pointer">
-            <img
-              className={`w-[42px] h-42px] hover:bg-orange-300 duration-200`}
-              src={homeIcon}
-              alt=""
-            />
-          </a>
+          <img
+            className={`w-[42px] h-42px] hover:bg-orange-300 duration-200`}
+            src={homeIcon}
+            alt=""
+          />
         </NavLink>
         <NavLink
           to="MyWorkouts"
           className={({ isActive }) => (isActive ? "bg-orange-300" : "")}
         >
-          <a className="cursor-pointer">
-            <img
-              className="w-[72px] h-[72px]  hover:bg-orange-300 duration-200"
-              src={dumbellIcon}
-              alt=""
-            />
-          </a>
+          <img
+            className="w-[72px] h-[72px]  hover:bg-orange-300 duration-200"
+            src={dumbellIcon}
+            alt=""
+          />
         </NavLink>
         <NavLink
           to="MyAccount"
           className={({ isActive }) => (isActive ? "bg-orange-300" : "")}
         >
-          {" "}
-          <a className="cursor-pointer">
-            <img
-              className="w-[42px] h-[42px]  hover:bg-orange-300 duration-200"
-              src={userIcon}
-              alt=""
-            />
-          </a>
+          <img
+            className="w-[42px] h-[42px]  hover:bg-orange-300 duration-200"
+            src={userIcon}
+            alt=""
+          />
         </NavLink>
       </div>
     </div>
