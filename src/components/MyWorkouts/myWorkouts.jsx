@@ -16,6 +16,7 @@ export default function MyWorkouts() {
   const addWorkout = (name, exercises) => {
     const newWorkout = { id: Date.now(), name, exercises };
     setWorkouts([...workouts, newWorkout]);
+    console.log("newWorkout: ", newWorkout);
     closeModal();
   };
 
@@ -40,17 +41,7 @@ export default function MyWorkouts() {
           </ul>
         </div>
         {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center z-50"
-            onClick={closeModal}
-          >
-            <div
-              className="flex flex-col items-center bg-bg-color w-[80%] h-[70%] p-6 rounded shadow-lg z-60"
-              onClick={(e) => e.stopPropagation()} // Prevent clicks from bubbling up to the backdrop
-            >
-              <WorkoutForm addWorkout={addWorkout} closeModal={closeModal} />
-            </div>
-          </div>
+          <WorkoutForm addWorkout={addWorkout} closeModal={closeModal} />
         )}
 
         <div className="">
