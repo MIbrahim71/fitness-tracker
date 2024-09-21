@@ -5,6 +5,7 @@ import Home from "./components/HomePage/Home";
 import Layout from "./Layout";
 import MyAccount from "./components/MyAccount/MyAccount";
 import MyWorkouts from "./components/MyWorkouts/MyWorkouts";
+import WorkoutDetail from "./components/MyWorkouts/WorkoutDetail/WorkoutDetail";
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,10 @@ const router = createBrowserRouter([
     element: <Layout />, // The Layout wraps the Navbar and route content
     children: [
       { index: true, element: <Home /> }, // This will render for '/' path
-      { path: "/MyWorkouts", element: <MyWorkouts /> },
-      { path: "/MyAccount", element: <MyAccount /> },
+      { path: "/myworkouts", element: <MyWorkouts /> },
+      { path: "/myworkouts/:id", element: <WorkoutDetail /> },
+
+      { path: "/myaccount", element: <MyAccount /> },
     ],
   },
 ]);
