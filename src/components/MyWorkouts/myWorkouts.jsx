@@ -13,12 +13,12 @@ export default function MyWorkouts() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  console.log(workouts);
+  console.log("Workouts ", workouts);
 
   return (
     <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-12">
       <div className="w-full">
-        <h1 className="flex text-orange-400 text-3xl">My Workouts</h1>
+        <h1 className="flex text-text-color text-3xl">My Workouts</h1>
       </div>
 
       {/* Saved workouts component*/}
@@ -30,14 +30,14 @@ export default function MyWorkouts() {
               workouts.map((workout) => (
                 <Link
                   key={workout.id}
-                  className="flex mb-2 p-2 rounded border cursor-pointer"
-                  to={`workouts/${encodeURIComponent(workout.name)}`}
+                  className="bg-bg-secondary flex mb-4 p-2 pl-4 pb-6 rounded cursor-pointer text-lg text-text-color"
+                  to={`${encodeURIComponent(workout.name)}`}
                 >
                   {workout.name}
                 </Link>
               ))
             ) : (
-              <p>No workouts available</p>
+              <p>No workouts added</p>
             )}
           </ul>
         </div>
@@ -46,9 +46,9 @@ export default function MyWorkouts() {
         <div className="">
           <button
             onClick={openModal}
-            className="bg-orange-400 text-white px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
+            className="bg-header-color text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
           >
-            Add workout
+            Add workout <span className="pl-2 font-semibold">+</span>
           </button>
         </div>
       </div>

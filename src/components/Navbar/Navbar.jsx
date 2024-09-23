@@ -8,30 +8,30 @@ export default function Navbar() {
       <div className="flex flex-row items-center justify-between gap-4 w-[80%] ">
         <NavLink
           to="/"
-          className={({ isActive }) => (isActive ? "bg-orange-300" : "")}
+          className={({ isActive }) => (isActive ? "border" : "")}
         >
           <img
-            className={`w-[42px] h-42px] hover:bg-orange-300 duration-200`}
+            className={`w-[42px] h-42px] hover:border duration-200`}
             src={homeIcon}
             alt=""
           />
         </NavLink>
         <NavLink
           to="MyWorkouts"
-          className={({ isActive }) => (isActive ? "bg-orange-300" : "")}
+          className={({ isActive }) => (isActive ? "border" : "")}
         >
           <img
-            className="w-[72px] h-[72px]  hover:bg-orange-300 duration-200"
+            className="w-[72px] h-[72px]  hover:border duration-200"
             src={dumbellIcon}
             alt=""
           />
         </NavLink>
         <NavLink
           to="MyAccount"
-          className={({ isActive }) => (isActive ? "bg-orange-300" : "")}
+          className={({ isActive }) => (isActive ? "border" : "")}
         >
           <img
-            className="w-[42px] h-[42px]  hover:bg-orange-300 duration-200"
+            className="w-[42px] h-[42px]  hover:border duration-200"
             src={userIcon}
             alt=""
           />

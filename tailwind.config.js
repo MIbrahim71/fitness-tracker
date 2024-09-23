@@ -4,7 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        "bg-color": "#242424",
+        "bg-primary": "#242424",
+        "bg-secondary": "#31363F",
+        "header-color": "#76ABAE",
+        "text-color": "#EEEEEE",
       },
     },
   },

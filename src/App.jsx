@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> }, // This will render for '/' path
       { path: "/myworkouts", element: <MyWorkouts /> },
-      { path: "/myworkouts/:workoutName", element: <WorkoutDetail /> },
+      { path: "/myworkouts/:id", element: <WorkoutDetail /> },
       { path: "/myaccount", element: <MyAccount /> },
     ],
     errorElement: <ErrorPage />,
