@@ -13,6 +13,8 @@ export default function MyWorkouts() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  console.log(workouts);
+
   return (
     <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-12">
       <div className="w-full">
@@ -23,20 +25,23 @@ export default function MyWorkouts() {
       <div className="flex flex-col items-center justify-between w-full h-full">
         <div className="flex-grow w-full">
           <ul>
-            {workouts.map((workout) => (
-              <Link
-                key={workout.id}
-                className="flex mb-2 p-2 rounded border cursor-pointer"
-                to={`workouts/${encodeURIComponent(workout.name)}`}
-              >
-                {workout.name}
-              </Link>
-            ))}
+            {/* Safeguard against null/undefined workouts */}
+            {Array.isArray(workouts) && workouts.length > 0 ? (
+              workouts.map((workout) => (
+                <Link
+                  key={workout.id}
+                  className="flex mb-2 p-2 rounded border cursor-pointer"
+                  to={`workouts/${encodeURIComponent(workout.name)}`}
+                >
+                  {workout.name}
+                </Link>
+              ))
+            ) : (
+              <p>No workouts available</p>
+            )}
           </ul>
         </div>
-        {isModalOpen && (
-          <WorkoutForm addWorkout={addWorkout} closeModal={closeModal} />
-        )}
+        {isModalOpen && <WorkoutForm closeModal={closeModal} />}
 
         <div className="">
           <button
