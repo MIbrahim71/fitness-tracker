@@ -1,24 +1,17 @@
 import React from "react";
+import { useContext } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import WorkoutContext from "../../context/WorkoutContext";
 import WorkoutForm from "./WorkoutForm/WorkoutForm";
 
 export default function MyWorkouts() {
-  const [workouts, setWorkouts] = useState([
-    { id: 1, name: "Push Day" },
-    { id: 2, name: "Pull Day" },
-  ]);
+  const { workouts, addWorkout } = useContext(WorkoutContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  const addWorkout = (name, exercises) => {
-    const newWorkout = { id: Date.now(), name, exercises };
-    setWorkouts([...workouts, newWorkout]);
-    console.log("newWorkout: ", newWorkout);
-    closeModal();
-  };
 
   return (
     <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-12">
@@ -31,12 +24,13 @@ export default function MyWorkouts() {
         <div className="flex-grow w-full">
           <ul>
             {workouts.map((workout) => (
-              <li
+              <Link
                 key={workout.id}
                 className="flex mb-2 p-2 rounded border cursor-pointer"
+                to={`workouts/${encodeURIComponent(workout.name)}`}
               >
                 {workout.name}
-              </li>
+              </Link>
             ))}
           </ul>
         </div>
