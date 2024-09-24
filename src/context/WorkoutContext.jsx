@@ -9,7 +9,7 @@ export const WorkoutProvider = ({ children }) => {
     { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
   ]);
 
-  const handleAddExercise = (id) => {
+  const handleAddExercise = () => {
     setExercises((prevExercises) => [
       ...prevExercises,
       { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
@@ -77,6 +77,7 @@ export const WorkoutProvider = ({ children }) => {
       value={{
         workouts,
         exercises,
+        setExercises,
         addWorkout,
         updateWorkout,
         deleteWorkout,

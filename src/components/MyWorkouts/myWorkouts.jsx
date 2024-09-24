@@ -42,16 +42,15 @@ export default function MyWorkouts() {
             )}
           </ul>
         </div>
-        {isModalOpen && <WorkoutForm closeModal={closeModal} />}
 
-        <div className="">
+        <Link to="addworkout">
           <button
             onClick={openModal}
             className="bg-header-color text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
           >
             Add workout <span className="pl-2 font-semibold">+</span>
           </button>
-        </div>
+        </Link>
       </div>
     </div>
   );

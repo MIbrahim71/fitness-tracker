@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import WorkoutContext from "../../../context/WorkoutContext";
@@ -8,6 +8,7 @@ export default function WorkoutForm({ closeModal }) {
   const {
     addWorkout,
     exercises,
+    setExercises,
     handleAddExercise,
     handleDeleteExercise,
     updateExerciseField,
@@ -18,14 +19,26 @@ export default function WorkoutForm({ closeModal }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addWorkout(workoutName, exercises);
-    closeModal();
-    console.log("Exercises", exercises);
+
+    const filteredExercises = exercises.filter(
+      (exercise) => exercise.name.trim() !== ""
+    );
+
+    addWorkout(workoutName, filteredExercises);
     setWorkoutName("");
     resetFormFields();
   };
 
   console.log("Exercises: " + exercises);
+
+  // Remove empty exercises when navigating away without form submission
+  useEffect(() => {
+    return () => {
+      setExercises((prevExercises) =>
+        prevExercises.filter((exercise) => exercise.name.trim() !== "")
+      );
+    };
+  }, [setExercises]);
 
   return (
     <div
@@ -43,8 +56,8 @@ export default function WorkoutForm({ closeModal }) {
             Add Workout
           </h1>
           <Link
-            to=""
-            onClick={closeModal}
+            to="../myworkouts"
+            // onClick={closeModal}
             className="m-0 px-2 self-center rounded border border-header-color"
           >
             Close

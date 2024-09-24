@@ -4,5 +4,14 @@ import userIcon from "./user-Icon.png";
 import closeIcon from "./closeIcon.png";
 import editIcon from "./editIcon.svg";
 import checkbox from "./checkbox.svg";
+import backIcon from "./backIcon.svg";
 
-export { dumbellIcon, homeIcon, userIcon, closeIcon, editIcon, checkbox };
+export {
+  dumbellIcon,
+  homeIcon,
+  userIcon,
+  closeIcon,
+  editIcon,
+  checkbox,
+  backIcon,
+};

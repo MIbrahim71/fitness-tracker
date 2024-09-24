@@ -9,7 +9,6 @@ export default function WorkoutDetail() {
   const { id } = useParams();
   const workout = useLoaderData();
   const workoutName = workout.name;
-  console.log(workoutName);
 
   const { workouts, updateWorkout, deleteWorkout } = useContext(WorkoutContext);
 
@@ -41,7 +40,6 @@ export default function WorkoutDetail() {
     updateWorkout(updatedWorkout);
   };
 
-  // Update a specific exercise field
   const handleUpdateExerciseField = (index, field, value) => {
     const updatedExercises = [...localExercises];
     updatedExercises[index][field] = value;
@@ -57,22 +55,31 @@ export default function WorkoutDetail() {
     console.log(workout);
   }, [workouts]);
 
-  if (isLoading) {
-    return <div>Loading workouts...</div>;
-  }
-
-  if (!workout) {
-    return <div>Workout not found!</div>;
-  }
+  if (isLoading) return <div>Loading workouts...</div>;
+  if (!workout) return <div>Workout not found!</div>;
 
   console.log(localExercises);
 
   return (
-    <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-12">
+    <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-10">
       <div className="w-full flex flex-row items-center justify-between">
-        <h1 className="flex text-text-color text-3xl">
-          {workoutName.charAt(0).toUpperCase() + workoutName.slice(1)}
-        </h1>
+        <div className="flex items-center m-0">
+          <Link to="../myworkouts" className="pr-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              id="Layer_1"
+              data-name="Layer 1"
+              viewBox="0 0 24 24"
+              className="w-6 h-6 m-0 fill-current cursor-pointer"
+            >
+              <path d="M16.752,23.994,6.879,14.121a3,3,0,0,1,0-4.242L16.746.012,18.16,1.426,8.293,11.293a1,1,0,0,0,0,1.414l9.873,9.873Z" />
+            </svg>
+          </Link>
+          <h1 className="flex text-text-color text-3xl">
+            {workoutName.charAt(0).toUpperCase() +
+              workoutName.slice(1).toLowerCase()}
+          </h1>
+        </div>
         <a
           onClick={() => {
             saveWorkoutChanges();
