@@ -15,14 +15,14 @@ export default function MyWorkouts() {
   console.log("Workouts ", workouts);
 
   return (
-    <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-12">
+    <div className="flex flex-col w-[80%] h-[80%] mt-10">
       <div className="w-full">
         <h1 className="flex text-text-color text-3xl">My Workouts</h1>
       </div>
 
       {/* Saved workouts component*/}
       <div className="flex flex-col items-center justify-between w-full h-full">
-        <div className="flex-grow w-full">
+        <div className="flex-grow w-full flex items-center justify-center">
           <ul>
             {/* Safeguard against null/undefined workouts */}
             {Array.isArray(workouts) && workouts.length > 0 ? (
@@ -36,7 +36,9 @@ export default function MyWorkouts() {
                 </Link>
               ))
             ) : (
-              <p>No workouts added</p>
+              <p className="text-xl text-text-color opacity-40 text-center">
+                No workouts added
+              </p>
             )}
           </ul>
         </div>
