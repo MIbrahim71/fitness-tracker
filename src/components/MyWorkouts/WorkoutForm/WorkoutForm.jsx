@@ -69,7 +69,7 @@ export default function WorkoutForm({ closeModal }) {
             return (
               <div
                 key={exercise.id}
-                className="w-full flex flex-row  items-center align-middle px-2 mb-2 rounded-lg bg-bg-secondary overflow-y-auto sm:text-xl"
+                className="w-full flex flex-row  items-center align-middle px-2 mb-2 rounded-md bg-bg-secondary overflow-y-auto sm:text-xl"
               >
                 <input
                   type="text"
@@ -116,7 +116,7 @@ export default function WorkoutForm({ closeModal }) {
             <button
               type="button"
               onClick={handleAddExercise}
-              className="w-full rounded border border-bg-secondary"
+              className="w-full rounded border border-bg-secondary mt-2"
             >
               Add Exercise
             </button>
