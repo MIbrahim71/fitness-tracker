@@ -1,17 +1,10 @@
 import React from "react";
 import { useContext } from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import WorkoutContext from "../../context/WorkoutContext";
-import WorkoutForm from "./WorkoutForm/WorkoutForm";
 
 export default function MyWorkouts() {
   const { workouts } = useContext(WorkoutContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   console.log("Workouts ", workouts);
 
   return (
@@ -44,10 +37,7 @@ export default function MyWorkouts() {
         </div>
 
         <Link to="addworkout">
-          <button
-            onClick={openModal}
-            className="bg-header-color text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
-          >
+          <button className="bg-header-color text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg">
             Add workout <span className="pl-2 font-semibold">+</span>
           </button>
         </Link>
