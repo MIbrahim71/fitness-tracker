@@ -22,8 +22,8 @@ export default function MyWorkouts() {
 
       {/* Saved workouts component*/}
       <div className="flex flex-col items-center justify-between w-full h-full">
-        <div className="flex-grow w-full flex items-center justify-center">
-          <ul>
+        <div className="flex-grow w-full flex mt-8">
+          <ul className="w-full">
             {/* Safeguard against null/undefined workouts */}
             {Array.isArray(workouts) && workouts.length > 0 ? (
               workouts.map((workout) => (

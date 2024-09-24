@@ -40,36 +40,36 @@ export default function WorkoutForm({ closeModal }) {
 
   return (
     <div
-      className="fixed inset-0 bg-bg-primary flex items-center justify-center z-50"
+      className="fixed inset-0 flex items-center justify-center z-50"
       onClick={closeModal}
     >
       {/* Modal */}
       <div
-        className="flex flex-col items-center bg-bg-color max-w-[700px] w-[90%] h-[80%] pt-6 px-6 rounded-lg shadow-lg z-60"
+        className="flex flex-col items-center bg-bg-secondary max-w-[600px] w-full h-full pt-6 px-8 sm:px-12 rounded-lg shadow-lg z-60 overflow-y-auto"
         onClick={(e) => e.stopPropagation()} // Prevent clicks from bubbling up to the backdrop
       >
         {/* Header */}
-        <div className="flex flex-row w-[80%] items-center justify-between mb-4">
-          <h1 className="flex text-3xl lg:text-4xl text-text-color">
+        <div className="flex flex-row w-full items-center justify-between mb-4">
+          <h1 className="flex text-xl lg:text-4xl text-text-color">
             Add Workout
           </h1>
           <button
             onClick={closeModal}
-            className="px-2 py-1 self-center rounded border border-header-color"
+            className="px-2 self-center rounded border border-header-color"
           >
             Close
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-[80%]">
-          <div className="flex">
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="flex items-center">
             {/* <label htmlFor="">Workout Name</label> */}
             <input
               type="text"
               placeholder="Workout Name"
               value={workoutName}
               onChange={(e) => setWorkoutName(e.target.value)}
-              className="text-xl my-4 rounded placeholder:text-gray-400 focus:placeholder-transparent text-black"
+              className="sm:w-48 text-2xl sm:text-3xl my-4 sm:my-12 rounded placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left"
               required
             />
           </div>
@@ -79,60 +79,63 @@ export default function WorkoutForm({ closeModal }) {
             return (
               <div
                 key={exercise.id}
-                className="flex flex-col sm:flex-row items-center align-middle py-1 px-2 mb-2 rounded-lg bg-bg-secondary"
+                className="w-full flex flex-row  items-center align-middle justify-between py-1 px-2 mb-2 rounded-lg bg-bg-primary overflow-y-auto sm:text-xl"
               >
                 <input
                   type="text"
-                  placeholder="Exercise Name"
-                  value={exercise.name}
+                  placeholder="Exercise"
+                  value={exercise.name || ""}
                   onChange={(e) => {
                     updateExerciseField(index, "name", e.target.value);
                   }}
                   required
-                  className="text-md rounded-sm placeholder:text-gray-400 focus:placeholder-transparent text-black border border-solid border-gray-400"
+                  className="w-[50%] text-lg sm:text-xl pl-1 rounded-sm placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left"
                 />
                 <div className="flex items-center justify-center my-2">
-                  <p>
-                    <label htmlFor={`sets-${exercise.id}`}>Sets</label>
+                  <div>
+                    {/* <label htmlFor={`sets-${exercise.id}`}></label> */}
                     <input
                       type="number"
                       id={`sets-${exercise.id}`}
-                      value={exercise.sets}
+                      value={exercise.sets || ""}
+                      placeholder="Sets"
                       onChange={(e) => {
                         updateExerciseField(index, "sets", e.target.value);
                       }}
-                      className="mx-2 rounded placeholder:text-gray-400 focus:placeholder-transparent text-black w-8"
+                      className="mx-2 rounded  placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12 border-2 border-bg-secondary"
                     />
-                  </p>
-                  <p>
-                    <label htmlFor={`reps-${exercise.id}`}>Reps</label>
+                  </div>
+                  <div>
+                    {/* <label htmlFor={`reps-${exercise.id}`}>Reps</label> */}
                     <input
                       type="number"
                       id={`reps-${exercise.id}`}
-                      value={exercise.reps}
+                      placeholder="Reps"
+                      value={exercise.reps || ""}
                       onChange={(e) => {
                         updateExerciseField(index, "reps", e.target.value);
                       }}
-                      className="mx-2 rounded placeholder:text-gray-400 focus:placeholder-transparent text-black w-8"
+                      className="mx-2 rounded  placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12  border-2 border-bg-secondary"
                     />
-                  </p>
-                  <p>
-                    <label htmlFor={`pb-${exercise.id}`}>PB</label>
+                  </div>
+                  <div>
+                    {/* <label htmlFor={`pb-${exercise.id}`}>PB</label> */}
                     <input
                       type="number"
                       id={`pb-${exercise.id}`}
-                      value={exercise.pb}
+                      placeholder="PB"
+                      value={exercise.pb || ""}
                       onChange={(e) => {
                         updateExerciseField(index, "pb", e.target.value);
                       }}
-                      className="mx-2 rounded placeholder:text-gray-400 focus:placeholder-transparent text-black w-8"
+                      className="mx-2 rounded  placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12  border-2 border-bg-secondary"
                     />
-                  </p>
+                  </div>
                 </div>
               </div>
             );
           })}
-          <div className="flex flex-col items-center justify-between">
+          <div className="h-full max-h-64 flex flex-col items-center justify-between pb-24">
             <button
               type="button"
               onClick={handleAddExercise}
@@ -140,12 +143,14 @@ export default function WorkoutForm({ closeModal }) {
             >
               Add Exercise
             </button>
-            <button
-              type="submit"
-              className="max-w-[60%] mt-24 bg-header-color text-white px-3 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
-            >
-              Save Workout
-            </button>
+            <div className="w-full  mt-auto flex justify-center">
+              <button
+                type="submit"
+                className="max-w-[60%] bg-header-color text-white px-3 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
+              >
+                Save Workout
+              </button>
+            </div>
           </div>
         </form>
       </div>
