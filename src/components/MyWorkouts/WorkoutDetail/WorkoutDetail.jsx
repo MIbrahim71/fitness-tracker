@@ -3,30 +3,49 @@ import { useContext, useEffect } from "react";
 import { useParams, useLoaderData, Link } from "react-router-dom";
 import WorkoutContext from "../../../context/WorkoutContext";
 import { editIcon, checkbox } from "../../../assets/assets";
+import { v4 as uuidv4 } from "uuid";
 
 export default function WorkoutDetail() {
   const { id } = useParams();
   const workout = useLoaderData();
 
-  const {
-    workouts,
-    updateWorkout,
-    deleteWorkout,
-    handleAddExercise,
-    handleDeleteExercise,
-  } = useContext(WorkoutContext);
+  const { workouts, updateWorkout, deleteWorkout } = useContext(WorkoutContext);
 
-  const [exercises, setExercises] = useState(workout?.exercises || []);
+  const [localExercises, setLocalExercises] = useState([...workout?.exercises]);
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleAddExercise = () => {
+    setLocalExercises([
+      ...localExercises,
+      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
+    ]);
+  };
+
+  const handleDeleteExercise = (id) => {
+    const updatedExercises = localExercises.filter(
+      (exercise) => exercise.id !== id
+    );
+    setLocalExercises(updatedExercises);
+  };
+
+  const saveWorkoutChanges = () => {
+    const filteredExercises = localExercises.filter(
+      (exercise) => exercise.name.trim() !== ""
+    );
+
+    const updatedWorkout = { ...workout, exercises: filteredExercises };
+    setLocalExercises(filteredExercises);
+    updateWorkout(updatedWorkout);
+  };
+
   // Update a specific exercise field
   const handleUpdateExerciseField = (index, field, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...localExercises];
     updatedExercises[index][field] = value;
 
-    setExercises(updatedExercises);
-    updateWorkout({ ...workout, exercises: updatedExercises }); // Update the workout in context
+    setLocalExercises(updatedExercises);
+    // updateWorkout({ ...workout, exercises: updatedExercises }); // Update the workout in context
   };
 
   // Loading screen
@@ -45,14 +64,17 @@ export default function WorkoutDetail() {
     return <div>Workout not found!</div>;
   }
 
-  console.log(exercises);
+  console.log(localExercises);
 
   return (
     <div className="flex flex-col w-[80%] h-[80%] mt-10 gap-12">
       <div className="w-full flex flex-row items-center justify-between">
         <h1 className="flex text-text-color text-3xl">{workout.name}</h1>
         <img
-          onClick={() => setEditMode(!editMode)}
+          onClick={() => {
+            saveWorkoutChanges();
+            setEditMode(!editMode);
+          }}
           src={editMode ? checkbox : editIcon}
           alt={editMode ? checkbox : editIcon}
           className="text-text-color w-8 h-8 m-0 cursor-pointer"
@@ -61,7 +83,7 @@ export default function WorkoutDetail() {
 
       {/* Saved exercises component*/}
       <div className="flex flex-col items-center gap-4 w-full h-full">
-        {exercises.map((exercise, index) => {
+        {localExercises.map((exercise, index) => {
           return (
             <div
               key={exercise.id}
@@ -95,6 +117,7 @@ export default function WorkoutDetail() {
                     onChange={(e) =>
                       handleUpdateExerciseField(index, field, e.target.value)
                     }
+                    required
                     maxLength={3}
                     className="mx-2 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-12 bg-bg-primary"
                   />

@@ -102,14 +102,13 @@ export default function WorkoutForm({ closeModal }) {
                     />
                   ))}
                 </div>
-                {index !== 0 ? (
-                  <button
-                    onClick={(id) => handleDeleteExercise(exercise.id)}
-                    className="p-1 text-red-600"
-                  >
-                    X
-                  </button>
-                ) : null}
+
+                <button
+                  onClick={(id) => handleDeleteExercise(exercise.id)}
+                  className="p-1 text-red-600"
+                >
+                  X
+                </button>
               </div>
             );
           })}
