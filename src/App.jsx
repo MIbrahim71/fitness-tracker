@@ -15,17 +15,17 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />, // The Layout wraps the Navbar and route content
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> }, // This will render for '/' path
-      { path: "/myworkouts", element: <MyWorkouts /> },
+      { path: "myworkouts", element: <MyWorkouts /> },
       {
-        path: "/myworkouts/:id",
+        path: "myworkouts/:id",
         element: <WorkoutDetail />,
         loader: workoutLoader,
       },
       { path: "/myaccount", element: <MyAccount /> },
     ],
-    errorElement: <ErrorPage />,
   },
 ]);
 

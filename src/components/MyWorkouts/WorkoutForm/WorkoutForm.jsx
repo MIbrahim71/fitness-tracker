@@ -1,42 +1,31 @@
 import React from "react";
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import WorkoutContext from "../../../context/WorkoutContext";
 
 export default function WorkoutForm({ closeModal }) {
-  const { addWorkout } = useContext(WorkoutContext);
+  const {
+    addWorkout,
+    exercises,
+    handleAddExercise,
+    handleDeleteExercise,
+    updateExerciseField,
+    resetFormFields,
+  } = useContext(WorkoutContext);
 
   const [workoutName, setWorkoutName] = useState("");
-  const [exercises, setExercises] = useState([
-    { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: 0 },
-  ]);
-
-  const handleAddExercise = () => {
-    setExercises((prevExercises) => [
-      ...prevExercises,
-      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: 0 },
-    ]);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addWorkout(workoutName, exercises);
     closeModal();
     console.log("Exercises", exercises);
-    // Optionally reset form fields
     setWorkoutName("");
-    setExercises([{ id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: 0 }]);
+    resetFormFields();
   };
 
-  const updateExerciseField = (index, field, value) => {
-    setExercises((prevExercises) => {
-      const newExercises = [...prevExercises];
-      newExercises[index][field] = value;
-      return newExercises;
-    });
-  };
+  console.log("Exercises: " + exercises);
 
   return (
     <div
@@ -45,12 +34,12 @@ export default function WorkoutForm({ closeModal }) {
     >
       {/* Modal */}
       <div
-        className="flex flex-col items-center bg-bg-secondary max-w-[600px] w-full h-full pt-6 px-8 sm:px-12 rounded-lg shadow-lg z-60 overflow-y-auto"
+        className="flex flex-col items-center bg-bg-primary max-w-[600px] w-full h-full pt-6 px-8 sm:px-12 rounded-lg shadow-lg z-60 overflow-y-auto"
         onClick={(e) => e.stopPropagation()} // Prevent clicks from bubbling up to the backdrop
       >
         {/* Header */}
         <div className="flex flex-row w-full items-center justify-between mb-4">
-          <h1 className="flex text-xl lg:text-4xl text-text-color">
+          <h1 className="flex text-2xl lg:text-4xl text-text-color">
             Add Workout
           </h1>
           <button
@@ -79,7 +68,7 @@ export default function WorkoutForm({ closeModal }) {
             return (
               <div
                 key={exercise.id}
-                className="w-full flex flex-row  items-center align-middle justify-between py-1 px-2 mb-2 rounded-lg bg-bg-primary overflow-y-auto sm:text-xl"
+                className="w-full flex flex-row  items-center align-middle px-2 mb-2 rounded-lg bg-bg-secondary overflow-y-auto sm:text-xl"
               >
                 <input
                   type="text"
@@ -90,6 +79,7 @@ export default function WorkoutForm({ closeModal }) {
                   }}
                   required
                   className="w-[50%] text-lg sm:text-xl pl-1 rounded-sm placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left"
+                  maxLength={15}
                 />
                 <div className="flex items-center justify-center my-2">
                   {["sets", "reps", "pb"].map((field) => (
@@ -106,10 +96,19 @@ export default function WorkoutForm({ closeModal }) {
                       onChange={(e) =>
                         updateExerciseField(index, field, e.target.value)
                       }
-                      className="mx-2 rounded placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12 border-2 border-bg-secondary"
+                      maxLength={3}
+                      className="mx-2 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-12 bg-bg-primary"
                     />
                   ))}
                 </div>
+                {index !== 0 ? (
+                  <button
+                    onClick={(id) => handleDeleteExercise(exercise.id)}
+                    className="p-1 text-red-600"
+                  >
+                    X
+                  </button>
+                ) : null}
               </div>
             );
           })}
@@ -117,11 +116,11 @@ export default function WorkoutForm({ closeModal }) {
             <button
               type="button"
               onClick={handleAddExercise}
-              className="px-2 py-1 rounded border"
+              className="w-full rounded border border-bg-secondary"
             >
               Add Exercise
             </button>
-            <div className="w-full  mt-auto flex justify-center">
+            <div className="w-full mt-auto flex justify-center">
               <button
                 type="submit"
                 className="max-w-[60%] bg-header-color text-white px-3 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
