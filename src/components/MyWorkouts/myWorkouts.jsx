@@ -7,7 +7,6 @@ import WorkoutForm from "./WorkoutForm/WorkoutForm";
 
 export default function MyWorkouts() {
   const { workouts, addWorkout } = useContext(WorkoutContext);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
