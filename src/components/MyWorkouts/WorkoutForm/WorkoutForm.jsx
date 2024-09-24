@@ -92,45 +92,23 @@ export default function WorkoutForm({ closeModal }) {
                   className="w-[50%] text-lg sm:text-xl pl-1 rounded-sm placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left"
                 />
                 <div className="flex items-center justify-center my-2">
-                  <div>
-                    {/* <label htmlFor={`sets-${exercise.id}`}></label> */}
+                  {["sets", "reps", "pb"].map((field) => (
                     <input
+                      key={field}
                       type="number"
-                      id={`sets-${exercise.id}`}
-                      value={exercise.sets || ""}
-                      placeholder="Sets"
-                      onChange={(e) => {
-                        updateExerciseField(index, "sets", e.target.value);
-                      }}
-                      className="mx-2 rounded  placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12 border-2 border-bg-secondary"
+                      id={`${field}-${exercise.id}`}
+                      placeholder={
+                        field == "pb"
+                          ? field.toUpperCase()
+                          : field.charAt(0).toUpperCase() + field.slice(1)
+                      } // Capitalizes field names for placeholder
+                      value={exercise[field] || ""}
+                      onChange={(e) =>
+                        updateExerciseField(index, field, e.target.value)
+                      }
+                      className="mx-2 rounded placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12 border-2 border-bg-secondary"
                     />
-                  </div>
-                  <div>
-                    {/* <label htmlFor={`reps-${exercise.id}`}>Reps</label> */}
-                    <input
-                      type="number"
-                      id={`reps-${exercise.id}`}
-                      placeholder="Reps"
-                      value={exercise.reps || ""}
-                      onChange={(e) => {
-                        updateExerciseField(index, "reps", e.target.value);
-                      }}
-                      className="mx-2 rounded  placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12  border-2 border-bg-secondary"
-                    />
-                  </div>
-                  <div>
-                    {/* <label htmlFor={`pb-${exercise.id}`}>PB</label> */}
-                    <input
-                      type="number"
-                      id={`pb-${exercise.id}`}
-                      placeholder="PB"
-                      value={exercise.pb || ""}
-                      onChange={(e) => {
-                        updateExerciseField(index, "pb", e.target.value);
-                      }}
-                      className="mx-2 rounded  placeholder:text-text-color bg-transparent focus:placeholder-transparent text-text-color w-12  border-2 border-bg-secondary"
-                    />
-                  </div>
+                  ))}
                 </div>
               </div>
             );
