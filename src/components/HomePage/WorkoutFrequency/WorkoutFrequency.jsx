@@ -11,7 +11,7 @@ export default function WorkoutFrequency() {
           return (
             <div
               key={i}
-              className="w-8 h-7 rounded-full border cursor-pointer transition transform hover:scale-105 bg-stone-50 text-black"
+              className="w-8 h-7 rounded-full border cursor-pointer transition transform hover:scale-105 bg-text-color text-black"
             >
               {day}
             </div>

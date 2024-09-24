@@ -15,7 +15,7 @@ export default function MyWorkouts() {
   console.log("Workouts ", workouts);
 
   return (
-    <div className="flex flex-col w-[80%] h-[80%] mt-10">
+    <div className="flex flex-col w-[80%] h-[80%] mt-10 z-10">
       <div className="w-full">
         <h1 className="flex text-text-color text-3xl">My Workouts</h1>
       </div>

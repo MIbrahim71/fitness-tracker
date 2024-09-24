@@ -6,10 +6,7 @@ export default function Navbar() {
   return (
     <div className="flex flex-row border justify-center rounded-md mt-4 bg-slate-50">
       <div className="flex flex-row items-center justify-between gap-4 w-[80%] ">
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? "border" : "")}
-        >
+        <NavLink to="" className={({ isActive }) => (isActive ? "border" : "")}>
           <img
             className={`w-[42px] h-42px] hover:border duration-200`}
             src={homeIcon}
@@ -17,7 +14,7 @@ export default function Navbar() {
           />
         </NavLink>
         <NavLink
-          to="MyWorkouts"
+          to="myworkouts"
           className={({ isActive }) => (isActive ? "border" : "")}
         >
           <img
@@ -27,7 +24,7 @@ export default function Navbar() {
           />
         </NavLink>
         <NavLink
-          to="MyAccount"
+          to="myaccount"
           className={({ isActive }) => (isActive ? "border" : "")}
         >
           <img

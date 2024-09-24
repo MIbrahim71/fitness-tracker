@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 import WorkoutContext from "../../../context/WorkoutContext";
 
@@ -42,12 +42,13 @@ export default function WorkoutForm({ closeModal }) {
           <h1 className="flex text-2xl lg:text-4xl text-text-color">
             Add Workout
           </h1>
-          <button
+          <Link
+            to=""
             onClick={closeModal}
-            className="px-2 self-center rounded border border-header-color"
+            className="m-0 px-2 self-center rounded border border-header-color"
           >
             Close
-          </button>
+          </Link>
         </div>
 
         <form onSubmit={handleSubmit} className="w-full">
@@ -85,7 +86,7 @@ export default function WorkoutForm({ closeModal }) {
                   {["sets", "reps", "pb"].map((field) => (
                     <input
                       key={field}
-                      type="number"
+                      type={field == "pb" ? "text" : "number"}
                       id={`${field}-${exercise.id}`}
                       placeholder={
                         field == "pb"

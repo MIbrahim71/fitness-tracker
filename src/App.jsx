@@ -10,6 +10,7 @@ import WorkoutDetail, {
 } from "./components/MyWorkouts/WorkoutDetail/WorkoutDetail";
 import ErrorPage from "./ErrorPage";
 import { WorkoutProvider } from "./context/WorkoutContext";
+import WorkoutForm from "./components/MyWorkouts/WorkoutForm/WorkoutForm";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> }, // This will render for '/' path
       { path: "myworkouts", element: <MyWorkouts /> },
+      { path: "myworkouts/addworkout", element: <WorkoutForm /> },
       {
         path: "myworkouts/:id",
         element: <WorkoutDetail />,

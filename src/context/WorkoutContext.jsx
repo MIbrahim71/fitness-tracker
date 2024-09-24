@@ -6,13 +6,13 @@ const WorkoutContext = createContext();
 export const WorkoutProvider = ({ children }) => {
   const [workouts, setWorkouts] = useState([]);
   const [exercises, setExercises] = useState([
-    { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: 0 },
+    { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
   ]);
 
-  const handleAddExercise = () => {
+  const handleAddExercise = (id) => {
     setExercises((prevExercises) => [
       ...prevExercises,
-      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: 0 },
+      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
     ]);
   };
 
@@ -31,7 +31,7 @@ export const WorkoutProvider = ({ children }) => {
 
   const resetFormFields = () => {
     // Optionally reset form fields
-    setExercises([{ id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: 0 }]);
+    setExercises([{ id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" }]);
   };
 
   // READ - Load workouts from localStorage when component mounts
