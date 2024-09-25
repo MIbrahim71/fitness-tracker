@@ -9,7 +9,7 @@ export default function Navbar() {
           to=""
           // className={(isActive) => (isActive ? "fill-header-color" : "")}
           className={({ isActive }) =>
-            `w-[42px] h-[42px] duration-200 ${
+            `w-[36px] h-[36px] duration-200 ${
               isActive ? "fill-header-color" : ""
             } hover:fill-header-color`
           }
@@ -27,7 +27,7 @@ export default function Navbar() {
         <NavLink
           to="myworkouts"
           className={({ isActive }) =>
-            `w-[42px] h-[42px] duration-200 ${
+            `w-[36px] h-[36px] duration-200 ${
               isActive ? "fill-header-color" : ""
             } hover:fill-header-color`
           }
@@ -45,7 +45,7 @@ export default function Navbar() {
         <NavLink
           to="myaccount"
           className={({ isActive }) =>
-            `w-[42px] h-[42px] duration-200 ${
+            `w-[36px] h-[36px] duration-200 ${
               isActive ? "fill-header-color" : ""
             } hover:fill-header-color`
           }
