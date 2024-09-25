@@ -7,10 +7,10 @@ import MyAccount from "./components/MyAccount/MyAccount";
 import MyWorkouts from "./components/MyWorkouts/MyWorkouts";
 import WorkoutDetail, {
   workoutLoader,
-} from "./components/MyWorkouts/WorkoutDetail/WorkoutDetail";
+} from "./components/MyWorkouts/WorkoutDetail/";
 import ErrorPage from "./ErrorPage";
 import { WorkoutProvider } from "./context/WorkoutContext";
-import WorkoutForm from "./components/MyWorkouts/WorkoutForm/WorkoutForm";
+import WorkoutForm from "./components/MyWorkouts/WorkoutForm";
 
 const router = createBrowserRouter([
   {
