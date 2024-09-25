@@ -4,9 +4,9 @@ import Navbar from "./components/Navbar/Navbar";
 
 export default function Layout() {
   return (
-    <div className="flex flex-col max-w-[600px] h-screen items-center m-auto relative overflow-hidden">
+    <div className="flex flex-col max-w-[600px] min-h-dvh items-center m-auto relative overflow-y-scroll">
       <Outlet />
-      <div className="absolute bottom-0 w-[100%] z-50">
+      <div className="absolute bottom-0 w-full z-50">
         <Navbar />
       </div>
     </div>

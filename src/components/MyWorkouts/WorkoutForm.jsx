@@ -49,7 +49,6 @@ export default function WorkoutForm() {
         {/* Header */}
 
         <div className="w-full flex items-center justify-between mb-12">
-          {/* <div className="flex items-center m-0"> */}
           <Link to="../myworkouts" className="pr-2 m-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
