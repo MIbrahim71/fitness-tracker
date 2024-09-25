@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/HomePage/Home";
 import Layout from "./Layout";
 import MyAccount from "./components/MyAccount/MyAccount";
-import MyWorkouts from "./components/MyWorkouts/MyWorkouts";
+import MyWorkouts from "./components/MyWorkouts/MyWorkouts.jsx";
 import WorkoutDetail, {
   workoutLoader,
 } from "./components/MyWorkouts/WorkoutDetail/";
