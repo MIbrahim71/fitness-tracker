@@ -15,6 +15,7 @@ export default function MyWorkouts() {
 
       {/* Saved workouts component*/}
       <div className="flex flex-col items-center justify-between w-full h-full">
+        {/* Existing Workouts */}
         <div className="flex-grow w-full flex mt-8">
           <ul className="w-full">
             {/* Safeguard against null/undefined workouts */}
@@ -36,6 +37,7 @@ export default function MyWorkouts() {
           </ul>
         </div>
 
+        {/* Add workout */}
         <Link to="addworkout">
           <button className="bg-header-color text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg">
             Add workout <span className="pl-2 font-semibold">+</span>
