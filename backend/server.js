@@ -3,12 +3,15 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 
+const dbURI =
+  "mongodb+srv://mibrahim:AP73EXmhoVwtCR4J@fitness-app-cluster.f2w1o.mongodb.net/?retryWrites=true&w=majority&appName=Fitness-app-cluster";
+
 mongoose
-  .connect("mongodb://localhost:5001/fitnessTracker", {
+  .connect(dbURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB connected..."))
   .catch((error) => console.error("MongoDB connection error", error));
 
 const PORT = process.env.PORT || 5001;

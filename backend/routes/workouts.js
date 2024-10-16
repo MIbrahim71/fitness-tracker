@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const Workout = require("../models/Workout");
 const router = express.Router();
 
@@ -7,10 +8,22 @@ let workouts = [];
 // CREATE a new workout
 router.post("/", async (req, res) => {
   const { name, exercises, userId } = req.body;
+  if (!name || !exercises || !userId) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
   const workout = new Workout({ name, exercises, userId }); // Create new Workout instance
 
   try {
-    const newWorkout = await newWorkout.save(); // Save Workout to database
+    // Convert userId to ObjectId
+    const validUserId = mongoose.Types.ObjectId.isValid(userId)
+      ? new mongoose.Types.ObjectId(userId)
+      : null;
+
+    if (!validUserId) {
+      return res.status(400).json({ message: "Invalid userId format" });
+    }
+
+    const newWorkout = await workout.save(); // Save Workout to database
     res.status(201).json(newWorkout); // Respond with new Workout
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -58,14 +71,14 @@ router.put("/:id", async (req, res) => {
 // DELETE a workout
 router.delete("/:id", async (req, res) => {
   try {
-    const workout = await Workout.findById(req.params.id);
+    const workout = req.params.id;
+    const deletedWorkout = await Workout.findByIdAndDelete(workout);
 
-    if (!workout) return res.status(404).send("Workout not found");
+    if (!deletedWorkout) return res.status(404).send("Workout not found");
 
-    await workout.remove();
-    res.json({ message: "Workout deleted" });
+    res.json({ message: "Workout deleted", deletedWorkout });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
