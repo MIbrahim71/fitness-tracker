@@ -33,7 +33,7 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 // Get all workouts
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const workouts = await Workout.find();
     res.json(workouts);
@@ -54,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // UPDATE a workout
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
     const workout = await Workout.findById(req.params.id);
     if (!workout) return res.status(404).send("Workout not found");
@@ -71,7 +71,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE a workout
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const workout = await Workout.findByIdAndDelete(req.params.id);
     if (!workout) return res.status(404).send("Workout not found");
