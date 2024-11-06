@@ -5,6 +5,7 @@ const exerciseSchema = new mongoose.Schema({
   name: { type: String, required: true },
   sets: { type: Number, required: true },
   reps: { type: Number, required: true },
+  PB: { type: Number, required: true },
 });
 
 // Define schema for workouts

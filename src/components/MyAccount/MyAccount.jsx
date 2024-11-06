@@ -1,19 +1,51 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth";
 
 export default function MyAccount() {
+  const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const handleLogout = () => {
+    logout(); // This will clear localStorage
+    navigate('/auth'); // Redirect to login page
+  };
+
   return (
     <div className="flex flex-col w-[80%] h-full mt-10">
       <div className="w-full">
         <h1 className="flex text-text-color text-3xl">My Account</h1>
       </div>
 
-      {/* Saved workouts component*/}
-      <div className="flex flex-col items-center justify-between w-full h-full">
-        <div className="flex-grow w-full flex mt-8">
-          Public Profile coming soon...
+      {/* Account Content */}
+      <div className="flex flex-col items-center justify-between w-full h-full min-h-[60vh]">
+        {/* User Profile Section */}
+        <div className="flex-grow w-full mt-8">
+          <div className="bg-bg-secondary rounded-lg p-6 mb-6">
+            <h2 className="text-text-color text-xl mb-4">Profile Information</h2>
+            <p className="text-text-color mb-2">Username: {userData.username}</p>
+            <p className="text-text-color mb-4">Email: {userData.email}</p>
+          </div>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full bg-red-600 text-text-color py-2 px-4 rounded-lg 
+                     hover:bg-red-700 transition-colors duration-200 mb-8"
+          >
+            Logout
+          </button>
+
+          <div className="bg-bg-secondary rounded-lg p-6">
+            <p className="text-text-color opacity-60">
+              Public Profile features coming soon...
+            </p>
+          </div>
         </div>
-        <div className="flex flex-row items-center gap-2">
-          <h1 className="text-2xl font-semibold tracking-wide">herc</h1>
+
+        {/* Logo at bottom */}
+        <div className="flex flex-row items-center gap-2 mt-auto pt-8">
+          <h1 className="text-2xl font-semibold tracking-wide text-text-color">herc</h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             id="Layer_1"

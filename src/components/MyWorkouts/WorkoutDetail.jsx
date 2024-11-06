@@ -1,19 +1,36 @@
 import { useState } from "react";
-import { useContext, useEffect } from "react";
-import { useParams, useLoaderData, Link } from "react-router-dom";
-import WorkoutContext from "../../context/WorkoutContext";
+import { useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+// import WorkoutContext from "../../context/WorkoutContext";
 import { v4 as uuidv4 } from "uuid";
 
 export default function WorkoutDetail() {
   const { id } = useParams();
-  const workout = useLoaderData();
-  const workoutName = workout.name;
-
-  const { workouts, updateWorkout, deleteWorkout } = useContext(WorkoutContext);
-
-  const [localExercises, setLocalExercises] = useState([...workout?.exercises]);
+  // const workout = useLoaderData();
+  // const workoutName = workout.name;
+  // const { workouts, updateWorkout, deleteWorkout } = useContext(WorkoutContext);
+  // const navigate = useNavigate();
+  const [workout, setWorkout] = useState(null);
+  const [localExercises, setLocalExercises] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWorkout = async () => {
+      try {
+        const data = await getWorkoutById(id);
+        setWorkout(data);
+        setLocalExercises(data.exercises);
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to fetch workout details');
+        setIsLoading(false);
+      }
+    };
+
+    fetchWorkout();
+  }, [id]);
 
   const handleAddExercise = () => {
     setLocalExercises((prevExercises) => [
@@ -23,39 +40,55 @@ export default function WorkoutDetail() {
   };
 
   const handleDeleteExercise = (id) => {
-    const updatedExercises = localExercises.filter(
-      (exercise) => exercise.id !== id
+    setLocalExercises((prevExercises) => 
+      prevExercises.filter((exercise) => exercise.id !== id)
     );
-    setLocalExercises(updatedExercises);
   };
 
-  const saveWorkoutChanges = () => {
+  const saveWorkoutChanges = async () => {
     const filteredExercises = localExercises.filter(
       (exercise) => exercise.name.trim() !== ""
     );
 
-    const updatedWorkout = { ...workout, exercises: filteredExercises };
-    setLocalExercises(filteredExercises);
-    updateWorkout(updatedWorkout);
+    const updatedWorkoutData = { ...workout, exercises: filteredExercises };
+    try {
+      await updateWorkout(id, updatedWorkoutData);
+      setWorkout(updatedWorkoutData);
+      setLocalExercises(filteredExercises);
+      setEditMode(false);
+    } catch (err) {
+      setError('Failed to update workout');
+    }
   };
 
   const handleUpdateExerciseField = (index, field, value) => {
-    const updatedExercises = [...localExercises];
-    updatedExercises[index][field] = value;
-
-    setLocalExercises(updatedExercises);
+    setLocalExercises((prevExercises) => {
+      const updatedExercises = [...prevExercises];
+      updatedExercises[index][field] = value;
+      return updatedExercises;
+    });
   };
 
-  // Loading screen
-  useEffect(() => {
-    if (workouts && workouts.length > 0) {
-      setIsLoading(false);
+  const handleDeleteWorkout = async () => {
+    try {
+      await deleteWorkout(id);
+      navigate('/myworkouts');
+    } catch (err) {
+      setError('Failed to delete workout');
     }
-    console.log(workout);
-  }, [workouts]);
+  };
 
-  if (isLoading) return <div>Loading workouts...</div>;
-  if (!workout) return <div>Workout not found!</div>;
+    // Loading screen
+  if (isLoading) return <div className="text-text-color">Loading workout details...</div>;
+  if (error) return <div className="text-text-color">{error}</div>;
+  if (!workout) return <div className="text-text-color">Workout not found!</div>;
+  // useEffect(() => {
+  //   if (workouts && workouts.length > 0) {
+  //     setIsLoading(false);
+  //   }
+  //   console.log(workout);
+  // }, [workouts]);
+
 
   console.log(localExercises);
 
@@ -81,8 +114,7 @@ export default function WorkoutDetail() {
 
         <a
           onClick={() => {
-            saveWorkoutChanges();
-            setEditMode(!editMode);
+            editMode ? saveWorkoutChanges() : setEditMode(true)
           }}
           className="m-0 cursor-pointer"
         >
@@ -175,18 +207,13 @@ export default function WorkoutDetail() {
         )}
       </div>
 
-      <Link
-        to="../myworkouts"
-        onClick={() => deleteWorkout(workout.id)}
-        className="bg-red-700 text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
+      <button
+        onClick={handleDeleteWorkout}
+        className="bg-red-700 text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
       >
-        Delete {id}
-      </Link>
+        Delete Workout
+      </button>
     </div>
   );
 }
-// Load data before page renders
-export async function workoutLoader({ params }) {
-  const workouts = JSON.parse(localStorage.getItem("workouts"));
-  return workouts.find((workout) => workout.name === params.id);
-}
+
