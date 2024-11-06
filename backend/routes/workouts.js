@@ -28,6 +28,7 @@ router.post("/", authMiddleware, async (req, res) => {
     const newWorkout = await workout.save(); // Save Workout to database
     res.status(201).json(newWorkout); // Respond with new Workout
   } catch (error) {
+    console.error('Error creating workout:', error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -35,7 +36,7 @@ router.post("/", authMiddleware, async (req, res) => {
 // Get all workouts
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const workouts = await Workout.find();
+    const workouts = await Workout.find({ user: req.user.userId });
     res.json(workouts);
   } catch (error) {
     res.status(500).json({ message: error.message });

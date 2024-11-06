@@ -1,45 +1,32 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../config/api';
+import api from './api';
+
 export const login = async (email, password) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/user/login`, {
-      email,
-      password
-    });
-    
+    const response = await api.post('/user/login', { email, password });
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
     }
-    
     return response.data;
   } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data.message);
-    }
-    throw new Error('Network error occurred');
+    throw error.response?.data || { message: 'Login failed' };
   }
 };
 
 export const register = async (username, email, password) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/user/register`, {
-      username,
-      email,
-      password
+    const response = await api.post('/user/register', { 
+      username, 
+      email, 
+      password 
     });
-    
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
     }
-    
     return response.data;
   } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data.message);
-    }
-    throw new Error('Network error occurred');
+    throw error.response?.data || { message: 'Registration failed' };
   }
 };
 

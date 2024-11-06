@@ -9,30 +9,30 @@ export const WorkoutProvider = ({ children }) => {
     { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
   ]);
 
-  const handleAddExercise = () => {
-    setExercises((prevExercises) => [
-      ...prevExercises,
-      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
-    ]);
-  };
+  // const handleAddExercise = () => {
+  //   setExercises((prevExercises) => [
+  //     ...prevExercises,
+  //     { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
+  //   ]);
+  // };
 
-  const handleDeleteExercise = (id) => {
-    const updatedExercises = exercises.filter((exercise) => exercise.id !== id);
-    setExercises(updatedExercises);
-  };
+  // const handleDeleteExercise = (id) => {
+  //   const updatedExercises = exercises.filter((exercise) => exercise.id !== id);
+  //   setExercises(updatedExercises);
+  // };
 
-  const updateExerciseField = (index, field, value) => {
-    setExercises((prevExercises) => {
-      const newExercises = [...prevExercises];
-      newExercises[index][field] = value;
-      return newExercises;
-    });
-  };
+  // const updateExerciseField = (index, field, value) => {
+  //   setExercises((prevExercises) => {
+  //     const newExercises = [...prevExercises];
+  //     newExercises[index][field] = value;
+  //     return newExercises;
+  //   });
+  // };
 
-  const resetFormFields = () => {
-    // Optionally reset form fields
-    setExercises([{ id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" }]);
-  };
+  // const resetFormFields = () => {
+  //   // Optionally reset form fields
+  //   setExercises([{ id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" }]);
+  // };
 
   // READ - Load workouts from localStorage when component mounts
   useEffect(() => {
@@ -81,10 +81,10 @@ export const WorkoutProvider = ({ children }) => {
         addWorkout,
         updateWorkout,
         deleteWorkout,
-        handleAddExercise,
-        handleDeleteExercise,
-        updateExerciseField,
-        resetFormFields,
+        // handleAddExercise,
+        // handleDeleteExercise,
+        // updateExerciseField,
+        // resetFormFields,
       }}
     >
       {children}

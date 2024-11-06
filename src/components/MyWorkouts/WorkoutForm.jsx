@@ -1,32 +1,62 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import WorkoutContext from "../../context/WorkoutContext";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { createWorkout } from "../../services/workouts";
 
 export default function WorkoutForm() {
-  const {
-    addWorkout,
-    exercises,
-    setExercises,
-    handleAddExercise,
-    handleDeleteExercise,
-    updateExerciseField,
-    resetFormFields,
-  } = useContext(WorkoutContext);
+  const navigate = useNavigate();
 
   const [workoutName, setWorkoutName] = useState("");
+  const [exercises, setExercises] = useState([]);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleAddExercise = () => {
+    setExercises([
+      ...exercises,
+      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
+    ])
+  };
+
+  const handleDeleteExercise = (id) => {
+    const updatedExercises = exercises.filter((exercise) => exercise.id !== id);
+    setExercises(updatedExercises);
+  };
+
+  const updateExerciseField = (index, field, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[index][field] = value;
+    setExercises(updatedExercises);
+  };
+
+  const resetFormFields = () => {
+    // Optionally reset form fields
+    setExercises([{ id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" }]);
+  };
+
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    setError("")
 
-    const filteredExercises = exercises.filter(
-      (exercise) => exercise.name.trim() !== ""
-    );
+    try {
+      const filteredExercises = exercises.filter(
+        (exercise) => exercise.name.trim() !== ""
+      );
+      
+      const workoutData = {
+        name: workoutName,
+        exercises: filteredExercises,
+      }
+      resetFormFields();
+      await createWorkout(workoutData)
+      navigate('myworkouts')
+     
+    } catch (error) {
+      setError(error.message || "Failed to create workout");
+      console.error("Error creating workout:", error);
+    }
 
-    addWorkout(workoutName, filteredExercises);
-    setWorkoutName("");
-    resetFormFields();
+    
   };
 
   console.log("Exercises: " + exercises);

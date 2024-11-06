@@ -1,6 +1,6 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 // import WorkoutContext from "../../context/WorkoutContext";
 import { getWorkouts } from '../../services/workouts';
 
@@ -10,6 +10,7 @@ export default function MyWorkouts() {
     const [workouts, setWorkouts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate()
   
     useEffect(() => {
       const fetchWorkouts = async () => {
@@ -17,15 +18,19 @@ export default function MyWorkouts() {
           const data = await getWorkouts();
           setWorkouts(data);
           setLoading(false);
+          setError("")
         } catch (error) {
           console.error('Failed to fetch workouts:', error);
           setError('Failed to fetch workouts. Please try again later.');
+          if (err.response?.status === 401) {
+            navigate('/auth');
+          }
           setLoading(false);
         }
       };
   
       fetchWorkouts();
-    }, []);
+    }, [navigate]);
 
 
   // const { workouts } = useContext(WorkoutContext);
@@ -64,7 +69,7 @@ export default function MyWorkouts() {
         </div>
 
         {/* Add workout */}
-        <Link to="/addworkout">
+        <Link to="addworkout">
           <button className="bg-header-color text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg">
             Add workout <span className="pl-2 font-semibold">+</span>
           </button>
