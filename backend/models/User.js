@@ -7,12 +7,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
       minlength: 3,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
       match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
     },
     password: {
@@ -29,18 +31,18 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", function(next) {
-  if (!this.isModified("password")) return next(); // If the password is not modified, we don't need to re-hash it
+// userSchema.pre("save", function(next) {
+//   if (!this.isModified("password")) return next(); // If the password is not modified, we don't need to re-hash it
   
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) return next(err);
+//   bcrypt.genSalt(10, (err, salt) => {
+//     if (err) return next(err);
 
-    bcrypt.hash(this.password, salt, (err, hash) => {
-      if (err) return next(err);
-      this.password = hash;
-      next();
-    });
-  });
-});
+//     bcrypt.hash(this.password, salt, (err, hash) => {
+//       if (err) return next(err);
+//       this.password = hash;
+//       next();
+//     });
+//   });
+// });
 
 module.exports = mongoose.model("User", userSchema);

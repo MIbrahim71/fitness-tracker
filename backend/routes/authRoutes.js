@@ -5,6 +5,7 @@ const User = require("../models/User");
 
 const router = express.Router();
 
+
 // REGISTER Route
 router.post("/register", async (req, res) => {
   try {
@@ -52,6 +53,8 @@ router.post("/login", async (req, res) => {
 
     // Check if user exists
     const user = await User.findOne({ email });
+    console.log('Found user:', user ? 'Yes' : 'No');
+
     if (!user) {
       console.log('User not found:', email);
       return res.status(400).json({ message: "Invalid credentials" });
