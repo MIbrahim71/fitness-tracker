@@ -27,20 +27,22 @@ export default function MyAccount() {
             <p className="text-text-color mb-4">Email: {userData.email}</p>
           </div>
 
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="w-full bg-red-600 text-text-color py-2 px-4 rounded-lg 
-                     hover:bg-red-700 transition-colors duration-200 mb-8"
-          >
-            Logout
-          </button>
+          
 
           <div className="bg-bg-secondary rounded-lg p-6">
             <p className="text-text-color opacity-60">
               Public Profile features coming soon...
             </p>
           </div>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full bg-red-600 text-text-color py-2 px-4 rounded-lg 
+                     hover:bg-red-700 transition-colors duration-200 mt-8"
+          >
+            Logout
+          </button>
         </div>
 
         {/* Logo at bottom */}
