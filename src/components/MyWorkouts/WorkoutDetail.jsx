@@ -1,20 +1,18 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-// import WorkoutContext from "../../context/WorkoutContext";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getWorkoutById, updateWorkout, deleteWorkout } from "../../services/workouts";
 import { v4 as uuidv4 } from "uuid";
 
 export default function WorkoutDetail() {
   const { id } = useParams();
-  // const workout = useLoaderData();
-  // const workoutName = workout.name;
-  // const { workouts, updateWorkout, deleteWorkout } = useContext(WorkoutContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [workout, setWorkout] = useState(null);
   const [localExercises, setLocalExercises] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
     const fetchWorkout = async () => {
@@ -33,30 +31,52 @@ export default function WorkoutDetail() {
   }, [id]);
 
   const handleAddExercise = () => {
-    setLocalExercises((prevExercises) => [
-      ...prevExercises,
-      { id: "Ex" + uuidv4(), name: "", sets: 0, reps: 0, pb: "" },
+    setLocalExercises([
+      ...localExercises,
+      { 
+        tempId: uuidv4(),
+        name: "", 
+        sets: 0, 
+        reps: 0, 
+        pb: "" 
+      }
     ]);
   };
 
   const handleDeleteExercise = (id) => {
-    setLocalExercises((prevExercises) => 
-      prevExercises.filter((exercise) => exercise.id !== id)
+    setLocalExercises(prevExercises => 
+      prevExercises.filter((exercise) => 
+        (exercise._id !== id) && (exercise.tempId !== id)
+      )
     );
   };
 
   const saveWorkoutChanges = async () => {
-    const filteredExercises = localExercises.filter(
-      (exercise) => exercise.name.trim() !== ""
-    );
-
-    const updatedWorkoutData = { ...workout, exercises: filteredExercises };
     try {
-      await updateWorkout(id, updatedWorkoutData);
-      setWorkout(updatedWorkoutData);
-      setLocalExercises(filteredExercises);
+      const filteredExercises = localExercises
+        .filter((exercise) => exercise.name.trim() !== "")
+        .map(exercise => ({
+          name: exercise.name,
+          sets: Number(exercise.sets) || 0,
+          reps: Number(exercise.reps) || 0,
+          pb: exercise.pb,
+          ...(exercise._id && { _id: exercise._id })
+        }));
+
+      const updatedWorkoutData = {
+        name: workout.name,
+        exercises: filteredExercises,
+        user: workout.user
+      };
+
+      console.log('Saving workout:', updatedWorkoutData);
+
+      const response = await updateWorkout(id, updatedWorkoutData);
+      setWorkout(response);
+      setLocalExercises(response.exercises);
       setEditMode(false);
-    } catch (err) {
+    } catch (error) {
+      console.error('Error:', error);
       setError('Failed to update workout');
     }
   };
@@ -73,29 +93,21 @@ export default function WorkoutDetail() {
     try {
       await deleteWorkout(id);
       navigate('/myworkouts');
-    } catch (err) {
+    } catch (error) {
+      console.log('Delete Error:', error)
       setError('Failed to delete workout');
     }
   };
 
-    // Loading screen
-  if (isLoading) return <div className="text-text-color">Loading workout details...</div>;
-  if (error) return <div className="text-text-color">{error}</div>;
-  if (!workout) return <div className="text-text-color">Workout not found!</div>;
-  // useEffect(() => {
-  //   if (workouts && workouts.length > 0) {
-  //     setIsLoading(false);
-  //   }
-  //   console.log(workout);
-  // }, [workouts]);
-
+  if (isLoading) return <div className="text-text-color text-xl my-8">Loading workout details...</div>;
+  if (error) return <div className="text-text-color text-xl my-8">{error}</div>;
+  if (!workout) return <div className="text-text-color text-xl my-8">Workout not found!</div>;
 
   console.log(localExercises);
 
   return (
     <div className="flex flex-col w-[85%] h-[80%] mt-10 gap-10">
       <div className="w-full flex flex-row items-center justify-between">
-        {/* <div className="flex items-center m-0"> */}
         <Link to="../myworkouts" className="pr-2 m-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -108,8 +120,8 @@ export default function WorkoutDetail() {
           </svg>
         </Link>
         <h1 className="flex text-text-color text-3xl">
-          {workoutName.charAt(0).toUpperCase() +
-            workoutName.slice(1).toLowerCase()}
+          {workout.name.charAt(0).toUpperCase() +
+            workout.name.slice(1).toLowerCase()}
         </h1>
 
         <a
@@ -142,12 +154,12 @@ export default function WorkoutDetail() {
         </a>
       </div>
 
-      {/* Saved exercises component*/}
       <div className="flex flex-col items-center gap-3 w-full h-full">
         {localExercises.map((exercise, index) => {
+          const exerciseId = exercise._id || exercise.tempId;
           return (
             <div
-              key={exercise.id}
+              key={exerciseId}
               className="w-full flex flex-row items-center align-middle px-2 rounded-md bg-bg-secondary overflow-y-auto sm:text-xl"
             >
               <input
@@ -167,27 +179,27 @@ export default function WorkoutDetail() {
                   <input
                     readOnly={!editMode}
                     key={field}
-                    type={field == "pb" ? "text" : "number"}
-                    id={`${field}-${exercise.id}`}
+                    type={field === "pb" ? "text" : "number"}
+                    id={`${field}-${exerciseId}`}
                     placeholder={
-                      field == "pb"
+                      field === "pb"
                         ? field.toUpperCase()
                         : field.charAt(0).toUpperCase() + field.slice(1)
-                    } // Capitalizes field names for placeholder
+                    }
                     value={exercise[field] || ""}
                     onChange={(e) =>
                       handleUpdateExerciseField(index, field, e.target.value)
                     }
-                    required
-                    maxLength={3}
-                    className="mx-2 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-12 bg-bg-primary"
+                    required={field !== "pb"}
+                    maxLength={field === "pb" ? 10 : 3} // Increased maxLength for PB
+                    className="mx-2 px-1 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-14 bg-bg-primary"
                   />
                 ))}
               </div>
 
               {editMode && (
                 <button
-                  onClick={() => handleDeleteExercise(exercise.id)}
+                  onClick={() => handleDeleteExercise(exerciseId)}
                   className="p-1 text-red-600"
                 >
                   X
@@ -213,6 +225,31 @@ export default function WorkoutDetail() {
       >
         Delete Workout
       </button>
+
+      {/* {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-bg-primary p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
+            <h2 className="text-text-color text-xl mb-4">Delete Workout?</h2>
+            <p className="text-text-color mb-6">
+              Are you sure you want to delete this workout? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2 rounded text-text-color hover:bg-bg-secondary transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 rounded bg-red-700 text-text-color hover:bg-red-800 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 }

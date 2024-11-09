@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import WorkoutContext from "../../context/WorkoutContext";
 import { getWorkouts } from '../../services/workouts';
 
 
@@ -22,7 +21,7 @@ export default function MyWorkouts() {
         } catch (error) {
           console.error('Failed to fetch workouts:', error);
           setError('Failed to fetch workouts. Please try again later.');
-          if (err.response?.status === 401) {
+          if (error.response?.status === 401) {
             navigate('/auth');
           }
           setLoading(false);
@@ -53,9 +52,9 @@ export default function MyWorkouts() {
             {workouts.length > 0 ? (
               workouts.map((workout) => (
                 <Link
-                  key={workout.id}
+                  key={workout._id}
                   className="bg-bg-secondary flex mb-4 p-2 pl-4 pb-6 rounded cursor-pointer text-lg text-text-color"
-                  to={`/workout/${workout._id}`}
+                  to={`${workout._id}`}
                 >
                   {workout.name}
                 </Link>

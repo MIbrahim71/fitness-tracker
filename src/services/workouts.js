@@ -29,6 +29,7 @@ export const createWorkout = async (workoutData) => {
 
 export const updateWorkout = async (id, workoutData) => {
   try {
+    console.log('Updating workout with data:', workoutData); // Debug log
     const response = await api.put(`/workouts/${id}`, workoutData);
     return response.data;
   } catch (error) {

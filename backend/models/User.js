@@ -22,10 +22,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    PBs: {
-      benchPress: { type: Number },
-      squat: { type: Number },
-      deadlift: { type: Number },
+    pb: {
+      type: String,
+      required: false,
     },
   },
   { timestamps: true }

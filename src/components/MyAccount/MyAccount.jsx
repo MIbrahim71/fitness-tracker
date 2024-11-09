@@ -22,7 +22,7 @@ export default function MyAccount() {
         {/* User Profile Section */}
         <div className="flex-grow w-full mt-8">
           <div className="bg-bg-secondary rounded-lg p-6 mb-6">
-            <h2 className="text-text-color text-xl mb-4">Profile Information</h2>
+            <h2 className="text-text-color text-xl mb-4">Profile Info</h2>
             <p className="text-text-color mb-2">Username: {userData.username}</p>
             <p className="text-text-color mb-4">Email: {userData.email}</p>
           </div>

@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createWorkout } from "../../services/workouts";
+import { v4 as uuidv4 } from "uuid";
+
 
 export default function WorkoutForm() {
   const navigate = useNavigate();
@@ -49,7 +51,7 @@ export default function WorkoutForm() {
       }
       resetFormFields();
       await createWorkout(workoutData)
-      navigate('myworkouts')
+      navigate('..')
      
     } catch (error) {
       setError(error.message || "Failed to create workout");
@@ -72,14 +74,14 @@ export default function WorkoutForm() {
 
   return (
     <div
-      className="flex flex-col max-w-[600px] w-[85%] h-full items-center bg-bg-primary sm:px-12 rounded-lg overflow-y-scroll"
-      onClick={(e) => e.stopPropagation()} // Prevent clicks from bubbling up to the backdrop
+      className="flex flex-col max-w-[600px] w-[85%] min-h-[80vh] bg-bg-primary px-4 sm:px-12 rounded-lg"
+      onClick={(e) => e.stopPropagation()}
     >
-      <div className="w-full flex flex-col items-center justify-between mt-10 ">
-        {/* Header */}
-
-        <div className="w-full flex items-center justify-between mb-12">
-          <Link to="../myworkouts" className="pr-2 m-0">
+      {/* Form Container */}
+      <div className="w-full flex flex-col h-full">
+        {/* Header Section */}
+        <div className="w-full flex items-center justify-between py-6 sm:py-8">
+          <Link to="../myworkouts" className="pr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               id="Layer_1"
@@ -90,33 +92,33 @@ export default function WorkoutForm() {
               <path d="M16.752,23.994,6.879,14.121a3,3,0,0,1,0-4.242L16.746.012,18.16,1.426,8.293,11.293a1,1,0,0,0,0,1.414l9.873,9.873Z" />
             </svg>
           </Link>
-          <h1 className="text-3xl sm:text-5xl text-text-color text-center flex-grow">
+          <h1 className="text-2xl sm:text-4xl text-text-color text-center flex-grow">
             Add Workout
           </h1>
-          <div className="w-6"></div>{" "}
-          {/* Spacer div with the same width as the SVG */}
+          <div className="w-6 sm:w-8" />
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full">
-          <div className="flex items-center relative">
-            {/* <label htmlFor="">Workout Name</label> */}
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
+          {/* Workout Name Input */}
+          <div className="flex items-center relative mb-4 sm:mb-6">
             <input
               type="text"
               placeholder="Workout Name"
               value={workoutName}
               onChange={(e) => setWorkoutName(e.target.value)}
-              className="sm:w-48 text-2xl sm:text-3xl p-0 mb-2 sm:my-12 rounded placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left outline-none relative group"
+              className="w-full sm:w-48 text-xl sm:text-3xl p-0 rounded placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left outline-none relative group"
               required
             />
             <span className="absolute -bottom-1 left-0 w-0 transition-all h-0.5 bg-header-color group-hover:w-full"></span>
           </div>
 
-          {/* EXERCISES */}
-          {exercises.map((exercise, index) => {
-            return (
+          {/* Exercises Section */}
+          <div className="flex flex-col gap-2 mb-4">
+            {exercises.map((exercise, index) => (
               <div
                 key={exercise.id}
-                className="w-full flex flex-row  items-center align-middle px-2 mb-2 rounded-md bg-bg-secondary overflow-y-auto sm:text-xl"
+                className="w-full flex flex-row items-center px-2 rounded-md bg-bg-secondary text-base sm:text-xl"
               >
                 <input
                   type="text"
@@ -126,55 +128,54 @@ export default function WorkoutForm() {
                     updateExerciseField(index, "name", e.target.value);
                   }}
                   required
-                  className="w-[50%] text-lg sm:text-xl pl-1 rounded-sm placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left"
+                  className="w-[40%] sm:w-[50%] text-base sm:text-xl pl-1 rounded-sm placeholder:text-gray-400 bg-transparent focus:placeholder-transparent text-text-color text-left"
                   maxLength={15}
                 />
-                <div className="flex items-center justify-center my-2">
+                <div className="flex items-center justify-center my-2 flex-grow">
                   {["sets", "reps", "pb"].map((field) => (
                     <input
                       key={field}
-                      type={field == "pb" ? "text" : "number"}
+                      type={field === "pb" ? "text" : "number"}
                       id={`${field}-${exercise.id}`}
-                      placeholder={
-                        field == "pb"
-                          ? field.toUpperCase()
-                          : field.charAt(0).toUpperCase() + field.slice(1)
-                      } // Capitalizes field names for placeholder
+                      placeholder={field.toUpperCase()}
                       value={exercise[field] || ""}
                       onChange={(e) =>
                         updateExerciseField(index, field, e.target.value)
                       }
-                      maxLength={3}
-                      className="mx-2 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-12 bg-bg-primary"
+                      maxLength={field === "pb" ? 10 : 3}
+                      className="mx-1 sm:mx-2 px-1 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-10 sm:w-14 bg-bg-primary text-sm sm:text-base"
                     />
                   ))}
                 </div>
 
                 <button
-                  onClick={(id) => handleDeleteExercise(exercise.id)}
-                  className="p-1 text-red-600"
+                  onClick={() => handleDeleteExercise(exercise.id)}
+                  className="p-1 text-red-600 ml-1"
+                  type="button"
                 >
                   X
                 </button>
               </div>
-            );
-          })}
-          <div className="h-full max-h-64 flex flex-col items-center justify-between pb-24">
+            ))}
+          </div>
+
+          {/* Add Exercise Button */}
+          <button
+            type="button"
+            onClick={handleAddExercise}
+            className="w-full py-2 rounded border border-bg-secondary hover:bg-bg-secondary transition-colors duration-200 mb-auto"
+          >
+            Add Exercise
+          </button>
+
+          {/* Save Button */}
+          <div className="flex justify-center mt-4 sm:mt-6 pb-6 sm:pb-8">
             <button
-              type="button"
-              onClick={handleAddExercise}
-              className="w-full rounded border border-bg-secondary mt-2"
+              type="submit"
+              className="w-full  bg-header-color text-white px-4 sm:px-8 py-2 sm:py-3 rounded text-lg sm:text-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
-              Add Exercise
+              Save Workout
             </button>
-            <div className="w-full mt-auto flex justify-center">
-              <button
-                type="submit"
-                className="max-w-[60%] bg-header-color text-white px-3 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg"
-              >
-                Save Workout
-              </button>
-            </div>
           </div>
         </form>
       </div>
