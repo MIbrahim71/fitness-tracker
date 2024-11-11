@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getWorkouts } from '../../services/workouts';
+import Loading from "../UI/Loading";
+import ErrorPage from "../UI/ErrorPage";
 
 
 
@@ -34,8 +36,8 @@ export default function MyWorkouts() {
 
   // const { workouts } = useContext(WorkoutContext);
   console.log("Workouts ", workouts);
-  if (loading) return <div className="text-text-color">Loading...</div>;
-  if (error) return <div className="text-text-color">{error}</div>;
+  if (loading) return <Loading/>
+  if (error) return <ErrorPage message={error}/>
 
   return (
     <div className="flex flex-col w-[80%] h-[80%] mt-10 z-10">

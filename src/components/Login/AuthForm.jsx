@@ -36,7 +36,7 @@ const AuthForm = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg-primary">
-      <div className="w-full max-w-md bg-bg-secondary p-8 rounded-lg shadow-md">
+      <div className="w-[90%] max-w-md bg-bg-secondary p-8 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-text-color">
           {isLogin ? 'Login' : 'Register'}
         </h2>

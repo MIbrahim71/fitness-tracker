@@ -11,7 +11,7 @@ import WorkoutDetail, {
   // workoutLoader,
 } from "./components/MyWorkouts/WorkoutDetail";
 import { WorkoutProvider } from "./context/WorkoutContext";
-import ErrorPage from "./ErrorPage";
+import ErrorPage from "./components/UI/ErrorPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([

@@ -18,18 +18,16 @@ export default function MyAccount() {
       </div>
 
       {/* Account Content */}
-      <div className="flex flex-col items-center justify-between w-full h-full min-h-[60vh]">
+      <div className="flex flex-col items-center justify-between gap-12 w-full h-full min-h-[60vh]">
         {/* User Profile Section */}
         <div className="flex-grow w-full mt-8">
           <div className="bg-bg-secondary rounded-lg p-6 mb-6">
-            <h2 className="text-text-color text-xl mb-4">Profile Info</h2>
-            <p className="text-text-color mb-2">Username: {userData.username}</p>
-            <p className="text-text-color mb-4">Email: {userData.email}</p>
+            <h2 className="text-text-color text-xl mb-4 text-left">Profile Info</h2>
+            <p className="text-text-color mb-2 text-left">Username: {userData.username}</p>
+            <p className="text-text-color mb-4 text-left">Email: {userData.email}</p>
           </div>
 
-          
-
-          <div className="bg-bg-secondary rounded-lg p-6">
+          <div className="rounded-lg p-4">
             <p className="text-text-color opacity-60">
               Public Profile features coming soon...
             </p>
@@ -39,7 +37,7 @@ export default function MyAccount() {
           <button
             onClick={handleLogout}
             className="w-full bg-red-600 text-text-color py-2 px-4 rounded-lg 
-                     hover:bg-red-700 transition-colors duration-200 mt-8"
+                     hover:bg-red-700 transition-colors duration-200 mt-10"
           >
             Logout
           </button>

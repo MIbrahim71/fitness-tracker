@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getWorkoutById, updateWorkout, deleteWorkout } from "../../services/workouts";
 import { v4 as uuidv4 } from "uuid";
+import Loading from "../UI/Loading";
+import ErrorPage from "../UI/ErrorPage";
 
 export default function WorkoutDetail() {
   const { id } = useParams();
@@ -99,14 +101,14 @@ export default function WorkoutDetail() {
     }
   };
 
-  if (isLoading) return <div className="text-text-color text-xl my-8">Loading workout details...</div>;
-  if (error) return <div className="text-text-color text-xl my-8">{error}</div>;
+  if (isLoading) return <Loading/>
+  if (error) return <ErrorPage message={error} />
   if (!workout) return <div className="text-text-color text-xl my-8">Workout not found!</div>;
 
   console.log(localExercises);
 
   return (
-    <div className="flex flex-col w-[85%] h-[80%] mt-10 gap-10">
+    <div className="flex flex-col w-[85%] min-h-[calc(100vh-10rem)] mx-auto mt-10 gap-10">
       <div className="w-full flex flex-row items-center justify-between">
         <Link to="../myworkouts" className="pr-2 m-0">
           <svg
@@ -120,8 +122,7 @@ export default function WorkoutDetail() {
           </svg>
         </Link>
         <h1 className="flex text-text-color text-3xl">
-          {workout.name.charAt(0).toUpperCase() +
-            workout.name.slice(1).toLowerCase()}
+          {workout.name}
         </h1>
 
         <a
@@ -154,7 +155,7 @@ export default function WorkoutDetail() {
         </a>
       </div>
 
-      <div className="flex flex-col items-center gap-3 w-full h-full">
+      <div className="flex flex-col flex-grow gap-3">
         {localExercises.map((exercise, index) => {
           const exerciseId = exercise._id || exercise.tempId;
           return (
@@ -192,7 +193,7 @@ export default function WorkoutDetail() {
                     }
                     required={field !== "pb"}
                     maxLength={field === "pb" ? 10 : 3} // Increased maxLength for PB
-                    className="mx-2 px-1 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-14 bg-bg-primary"
+                    className="mx-2 px-1 rounded placeholder:text-text-color focus:placeholder-transparent text-text-color w-fit max-w-[3rem] bg-bg-primary"
                   />
                 ))}
               </div>
@@ -219,37 +220,14 @@ export default function WorkoutDetail() {
         )}
       </div>
 
-      <button
-        onClick={handleDeleteWorkout}
-        className="bg-red-700 text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
-      >
-        Delete Workout
-      </button>
-
-      {/* {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-bg-primary p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
-            <h2 className="text-text-color text-xl mb-4">Delete Workout?</h2>
-            <p className="text-text-color mb-6">
-              Are you sure you want to delete this workout? This action cannot be undone.
-            </p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 rounded text-text-color hover:bg-bg-secondary transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 rounded bg-red-700 text-text-color hover:bg-red-800 transition-colors"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
+      <div className="mt-auto pt-6 pb-20">
+        <button
+          onClick={handleDeleteWorkout}
+          className="w-full bg-red-700 text-text-color px-5 py-2 rounded text-xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+        >
+          Delete Workout
+        </button>
+      </div>
     </div>
   );
 }
