@@ -1,5 +1,5 @@
 import BodyweightTracker from "./BodyweightTracker";
-import WorkoutFrequency from "./WorkoutFrequency";
+import FrequencyWidget from "./FrequencyWidget";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
           Welcome back <span className="text-header-color ml-1">Ibrahim</span>
         </h1>
       </div>
-      <WorkoutFrequency />
+      <FrequencyWidget />
       <BodyweightTracker />
     </div>
   );
