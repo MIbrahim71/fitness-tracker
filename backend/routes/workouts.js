@@ -4,8 +4,6 @@ const authMiddleware = require("../middleware/auth");
 const Workout = require("../models/Workout");
 const router = express.Router();
 
-let workouts = [];
-
 // CREATE a new workout
 router.post("/", authMiddleware, async (req, res) => {
   const { name, exercises } = req.body;
@@ -28,7 +26,7 @@ router.post("/", authMiddleware, async (req, res) => {
     const newWorkout = await workout.save(); // Save Workout to database
     res.status(201).json(newWorkout); // Respond with new Workout
   } catch (error) {
-    console.error('Error creating workout:', error);
+    console.error("Error creating workout:", error);
     res.status(400).json({ message: error.message });
   }
 });

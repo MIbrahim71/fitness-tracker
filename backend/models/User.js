@@ -26,13 +26,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    checkIns: [{ type: Date }],
   },
   { timestamps: true }
 );
 
 // userSchema.pre("save", function(next) {
 //   if (!this.isModified("password")) return next(); // If the password is not modified, we don't need to re-hash it
-  
+
 //   bcrypt.genSalt(10, (err, salt) => {
 //     if (err) return next(err);
 
